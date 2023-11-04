@@ -21,7 +21,7 @@
     "typeorm": "npm run build && npx typeorm -d dist/ormconfig.js",
     "migration:generate": "npm run typeorm -- migration:generate",
     "migration:run": "npm run typeorm -- migration:run",
-    "migration:revert": "npm run typeorm -- migration:revert",
+    "migration:revert": "npm run typeorm -- migration:revert"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -82,6 +82,7 @@
     "testEnvironment": "node"
   },
   "engines": {
-    "node": "18"
+    "node": "18",
+    "npm": "9"
   }
 }
