@@ -7,6 +7,7 @@ import { CreateTrainScheduleRequest } from './request/create-train-schedule.requ
 import { TrainsService } from '../trains/trains.service';
 import { StationsService } from '../stations/stations.service';
 import { UpdateTrainScheduleRequest } from './request/update-train-schedule.request';
+import { SortQuery } from './query/sort.query';
 
 @Injectable()
 export class TrainScheduleService {
@@ -17,10 +18,18 @@ export class TrainScheduleService {
     private readonly stationsService: StationsService,
   ) {}
 
-  public async findAll(): Promise<TrainSchedule[]> {
-    return this.trainScheduleRepository.find({
+  public async findAll(sortQuery: SortQuery): Promise<TrainSchedule[]> {
+    const { arrive_time } = sortQuery;
+    const queryOptions = {
       relations: { train: true, station_from: true, station_to: true },
-    });
+      order: {},
+    };
+
+    if (arrive_time) {
+      queryOptions.order = { arrive_time };
+    }
+
+    return this.trainScheduleRepository.find(queryOptions);
   }
 
   async create(createTrainScheduleRequest: CreateTrainScheduleRequest) {

@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 
 import { CreateTrainScheduleRequest } from './request/create-train-schedule.request';
@@ -13,14 +14,18 @@ import { TrainScheduleService } from './train-schedule.service';
 import { TrainSchedule } from './entities/train-schedule.entity';
 import { UpdateTrainScheduleRequest } from './request/update-train-schedule.request';
 import { OperationByIdParam } from './param/operation-by-id.param';
+import { SortQuery } from './query/sort.query';
 
 @Controller('train-schedule')
 export class TrainScheduleController {
   constructor(private readonly trainScheduleService: TrainScheduleService) {}
 
   @Get()
-  public async findAll(): Promise<TrainSchedule[]> {
-    return this.trainScheduleService.findAll();
+  public async findAll(
+    @Query() sortQuery: SortQuery,
+  ): Promise<TrainSchedule[]> {
+    console.log(sortQuery);
+    return this.trainScheduleService.findAll(sortQuery);
   }
 
   @Get(':id')
